@@ -1,0 +1,26 @@
+;Abdullah Aljandali
+;CS380 Hw2
+
+#lang eopl
+(provide(all-defined-out))
+
+
+(define-datatype env-type env?
+  (empty-env)
+  (extend-env   [var symbol?]
+                [val always?]
+                [env env?]))
+
+(define (has-binding? env s)
+    (cases env-type env
+      [empty-env () #f]
+      [extend-env (var val env) (or (equal? var s)
+                                    (has-binding? env s))]))
+
+;test 
+(define x
+  (extend-env 'c '3
+              (extend-env 'b '2
+                          (extend-env 'a '1
+                                      (empty-env)))))
+
